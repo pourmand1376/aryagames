@@ -33,6 +33,26 @@
         "engines": 61
       }
     },
+    "macos-arm64": {
+      "name": "IranianCards-0.11.0-macos-arm64.zip",
+      "url": "https://github.com/pourmand1376/aryagames/releases/download/v0.11.0/IranianCards-0.11.0-macos-arm64.zip",
+      "size": 52081492,
+      "virustotal": "https://www.virustotal.com/gui/file/34dedbf0b12091125cb8d6eea80b0eacb0d7b815c57dc85c1726f23445fc9a4b",
+      "scan": {
+        "flagged": 0,
+        "engines": 61
+      }
+    },
+    "macos-x86_64": {
+      "name": "IranianCards-0.11.0-macos-x86_64.zip",
+      "url": "https://github.com/pourmand1376/aryagames/releases/download/v0.11.0/IranianCards-0.11.0-macos-x86_64.zip",
+      "size": 56411734,
+      "virustotal": "https://www.virustotal.com/gui/file/07ee474e60a29ff81caf59f0965d4eb1ac8bb7303da4957f60ae5eeee62658cc",
+      "scan": {
+        "flagged": 0,
+        "engines": 67
+      }
+    },
     "windows": {
       "name": "IranianCards-0.11.0-windows.zip",
       "url": "https://github.com/pourmand1376/aryagames/releases/download/v0.11.0/IranianCards-0.11.0-windows.zip",
