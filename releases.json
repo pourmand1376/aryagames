@@ -15,17 +15,17 @@
       "size": 81098302,
       "virustotal": "https://www.virustotal.com/gui/file/c9f3cc84aebbf36a18921bc1a520d12d7279f22b1e6d47fd933fca233bbca67c"
     },
-    "windows": {
-      "name": "IranianCards-0.11.0-windows.zip",
-      "url": "https://github.com/pourmand1376/aryagames/releases/download/v0.11.0/IranianCards-0.11.0-windows.zip",
-      "size": 60671121,
-      "virustotal": "https://www.virustotal.com/gui/file/576d2789c7d5a2f0b55d64c9aa9f122da4d1e9102cb949f0450f46c77eff64c8"
-    },
     "linux-x86_64": {
       "name": "IranianCards-0.11.0-linux-x86_64.zip",
       "url": "https://github.com/pourmand1376/aryagames/releases/download/v0.11.0/IranianCards-0.11.0-linux-x86_64.zip",
       "size": 51414005,
       "virustotal": "https://www.virustotal.com/gui/file/67e014f1be8c79b297ccecebf28732634bf175e8d8750d341889cbbc5001b8aa"
+    },
+    "windows": {
+      "name": "IranianCards-0.11.0-windows.zip",
+      "url": "https://github.com/pourmand1376/aryagames/releases/download/v0.11.0/IranianCards-0.11.0-windows.zip",
+      "size": 60671121,
+      "virustotal": "https://www.virustotal.com/gui/file/576d2789c7d5a2f0b55d64c9aa9f122da4d1e9102cb949f0450f46c77eff64c8"
     }
   }
 }
