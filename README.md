@@ -21,4 +21,4 @@ python3 -m http.server -d _site 8000   # http://localhost:8000
 ```
 
 ## Custom domain
-Put the domain in `site/CNAME` (one line, e.g. `example.ir`) and set it in Settings → Pages. The DNS is on Cloudflare: A records to GitHub's Pages IPs and `www` as a CNAME to `pourmand1376.github.io`, all DNS only (grey cloud).
+The site is served at https://aryagames.ir: `site/CNAME` holds the domain, and it is set in Settings → Pages. The DNS is on Cloudflare: A records to GitHub's Pages IPs and `www` as a CNAME to `pourmand1376.github.io`, all DNS only (grey cloud).
