@@ -36,8 +36,8 @@ PLATFORMS = [
         ("windows", "دانلود برای ویندوز", "۶۴ بیتی"),
     ]),
     ("macos", "مک", "♦", [
-        ("macos-arm64", "دانلود برای مک", "Apple Silicon (M1 و بعد از آن)"),
-        ("macos-x86_64", "نسخهٔ مک‌های اینتل", "Intel"),
+        ("macos-arm64", "دانلود برای مک", "مک‌های جدید، M1 به بعد"),
+        ("macos-x86_64", "نسخهٔ مک‌های اینتل", "مک‌های قدیمی‌تر"),
     ]),
     ("linux", "لینوکس", "♣", [
         ("linux-x86_64", "دانلود برای لینوکس", "x86_64"),
@@ -143,6 +143,9 @@ def render_downloads(release: dict) -> str:
             body.append(f'<div class="dl-alt"><p><a href="{html.escape(f["url"])}" download>{label}</a>'
                         f' <span><bdi>{note}</bdi> · <bdi>{megabytes(f["size"])}</bdi></span></p>'
                         f"{render_scan(f)}</div>")
+        if pid == "macos":
+            body.append('<p class="dl-hint">بار اول باید از تنظیمات مک، گزینهٔ <bdi dir="ltr">Open Anyway</bdi> را بزنید. '
+                        '<a href="#mac-help" data-open="mac-help">چطور؟</a></p>')
         cards.append(f'<article class="dl-card" data-platform="{pid}">{head}{"".join(body)}</article>')
     return "\n".join(cards)
 

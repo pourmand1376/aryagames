@@ -20,3 +20,11 @@
     hero.textContent = "دانلود برای " + title.textContent;
   }
 })();
+
+// "چطور؟" on the Mac card opens the Mac help before jumping to it.
+document.addEventListener("click", function (e) {
+  var link = e.target.closest && e.target.closest("[data-open]");
+  if (!link) return;
+  var box = document.getElementById(link.getAttribute("data-open"));
+  if (box) box.open = true;
+});
