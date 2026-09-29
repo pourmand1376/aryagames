@@ -127,6 +127,8 @@ code { font-size: .9em; background: var(--bg-alt); padding: .1em .4em; border-ra
 }
 .fan .card .idx b { font-family: Georgia, "Times New Roman", serif; font-size: 1.45rem; font-weight: 700; letter-spacing: -.04em; }
 .fan .card .idx em { font-style: normal; font-size: 1.15rem; margin-top: 2px; }
+/* "10" is the only two-letter rank: squeeze it so it fits the strip a fan leaves visible */
+.fan .card .idx b.ten { letter-spacing: -.14em; margin-left: -.14em; }
 .fan .card .idx.flip { top: auto; left: auto; bottom: 8px; right: 9px; transform: rotate(180deg); }
 /* Card faces: a number card's pips (as many as its number), an Ace's one big pip, a court card's framed letter */
 .fan .card .pips { position: absolute; inset: 17% 31%; }
@@ -289,17 +291,18 @@ code { font-size: .9em; background: var(--bg-alt); padding: .1em .4em; border-ra
 .footer p { margin: 0; }
 
 @media (max-width: 860px) {
-  .hero-in { grid-template-columns: 1fr; padding-top: 40px; padding-bottom: 32px; gap: 8px; }
+  .hero-in { grid-template-columns: 1fr; padding-top: 20px; padding-bottom: 32px; gap: 8px; }
   .deal { order: -1; margin: 8px 0 20px; }
-  .fan { height: 250px; --spread: 56deg; }
+  .fan { height: 190px; --spread: 56deg; }
+  .deal-ctl { margin-top: 36px; }
   .fan .card { width: 96px; height: 138px; margin-left: -48px; }
   .fan .card .ace { font-size: 2.5rem; }
   .fan .card .pips span { font-size: 1rem; }
   .fan .card .court b { font-size: 1.9rem; }
   .fan .card .court em { font-size: 1rem; }
-  .fan .card .idx { top: 6px; left: 6px; width: 20px; }
-  .fan .card .idx.flip { bottom: 6px; right: 6px; }
-  .fan .card .idx b { font-size: 1.1rem; }
+  .fan .card .idx { top: 6px; left: 4px; width: 20px; }
+  .fan .card .idx.flip { bottom: 6px; right: 4px; }
+  .fan .card .idx b { font-size: 1.05rem; }
   .fan .card .idx em { font-size: .9rem; }
   .games { grid-template-columns: 1fr; }
   .features { grid-template-columns: 1fr 1fr; }

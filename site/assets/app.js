@@ -29,7 +29,7 @@ function cardFace(r, s) {
 }
 function cardHtml(r, s) {
   var red = s === "♥" || s === "♦" ? " red" : "";
-  var idx = "<b>" + r + "</b><em>" + s + "</em>";
+  var idx = "<b" + (r === "10" ? ' class="ten"' : "") + ">" + r + "</b><em>" + s + "</em>";
   return '<div class="card' + red + '"><span class="idx">' + idx + "</span>" + cardFace(r, s) +
     '<span class="idx flip">' + idx + "</span></div>";
 }
