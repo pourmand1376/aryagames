@@ -25,25 +25,35 @@ FA_DIGITS = str.maketrans("0123456789.", "۰۱۲۳۴۵۶۷۸۹٫")
 JALALI_MONTHS = ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور",
                  "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"]
 
-# Download cards in page order: (platform id, title, suit mark, [(file key, button text, note)]).
+# Download cards in page order: (platform id, title, [(file key, button text, note)]).
+# Each card carries its platform's logo (ICONS, symbols in site/assets/platforms.svg).
 # The first file present in a group is its main button; the rest are smaller links under it.
 PLATFORMS = [
-    ("android", "اندروید", "♥", [
+    ("android", "اندروید", [
         ("android-arm64", "دانلود APK", "برای بیشتر گوشی‌ها (arm64)"),
         ("android-armv7", "نسخهٔ گوشی‌های قدیمی‌تر", "armv7"),
     ]),
-    ("windows", "ویندوز", "♠", [
+    ("windows", "ویندوز", [
         ("windows", "دانلود برای ویندوز", "۶۴ بیتی"),
     ]),
-    ("macos", "مک", "♦", [
+    ("macos", "مک", [
         ("macos-arm64", "دانلود برای مک", "مک‌های جدید، M1 به بعد"),
         ("macos-x86_64", "نسخهٔ مک‌های اینتل", "مک‌های قدیمی‌تر"),
     ]),
-    ("linux", "لینوکس", "♣", [
+    ("linux", "لینوکس", [
         ("linux-x86_64", "دانلود برای لینوکس", "x86_64"),
     ]),
-    ("ios", "آیفون", "♥", []),
+    ("ios", "آیفون", []),
 ]
+
+
+# Platform id -> logo in site/assets/platforms.svg.
+ICONS = {"android": "android", "windows": "windows", "macos": "apple", "linux": "linux", "ios": "apple"}
+
+
+def icon(pid: str) -> str:
+    """The platform's logo as an inline <svg> that uses the shared sprite."""
+    return f'<svg class="pf-icon" aria-hidden="true"><use href="assets/platforms.svg#{ICONS[pid]}"/></svg>'
 
 
 # Store listings still to come, shown on the platform's download card.
@@ -127,14 +137,23 @@ def render_scan_summary(release: dict) -> str:
             f"جزئیات کنار هر فایل آمده است.</p>")
 
 
+def render_platforms() -> str:
+    """The hero's platform line: a logo per platform, named in its tooltip; ones without a build are dimmed."""
+    items = []
+    for pid, title, options in PLATFORMS:
+        soon = not options
+        label = f"{title} (به‌زودی)" if soon else title
+        items.append(f'<span class="pf{" soon" if soon else ""}" title="{label}" role="img" aria-label="{label}">'
+                     f'{icon(pid)}</span>')
+    return "".join(items)
+
+
 def render_downloads(release: dict) -> str:
     files = release.get("files", {})
     cards = []
-    for pid, title, suit, options in PLATFORMS:
+    for pid, title, options in PLATFORMS:
         present = [(key, label, note) for key, label, note in options if key in files]
-        red = " red" if suit in "♥♦" else ""
-        head = (f'<div class="dl-head"><span class="suit{red}" aria-hidden="true">{suit}</span>'
-                f"<h3>{title}</h3></div>")
+        head = f'<div class="dl-head">{icon(pid)}<h3>{title}</h3></div>'
         if not present:
             soon = STORES_SOON.get(pid, "به‌زودی")
             cards.append(f'<article class="dl-card soon" data-platform="{pid}">{head}'
@@ -182,6 +201,7 @@ def main() -> None:
         "version_fa": fa(release["version"]),
         "date_fa": jalali(release["date"]),
         "downloads": render_downloads(release),
+        "platforms": render_platforms(),
         "scan_summary": render_scan_summary(release),
         "latest_notes": render_items(latest["items"]) if latest else "",
         "changelog": render_changelog(entries),

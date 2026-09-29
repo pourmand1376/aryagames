@@ -106,7 +106,14 @@ code { font-size: .9em; background: var(--bg-alt); padding: .1em .4em; border-ra
 }
 .hero-cta { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin: 28px 0 12px; }
 .version { opacity: .75; font-size: .95rem; }
-.platforms { opacity: .8; font-size: .95rem; margin: 0; }
+.platforms { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; font-size: .95rem; margin: 0; }
+.platforms > span:first-child { opacity: .8; }
+.pf { display: inline-flex; opacity: .9; transition: opacity .15s, transform .15s; }
+.pf:hover { opacity: 1; transform: translateY(-1px); }
+.pf .pf-icon { width: 24px; height: 24px; }
+.pf.soon { opacity: .35; }
+/* Platform logos (site/assets/platforms.svg), painted in the text color */
+.pf-icon { width: 28px; height: 28px; fill: currentColor; flex: none; }
 
 .fan { position: relative; height: 320px; }
 .fan .card {
@@ -230,6 +237,7 @@ code { font-size: .9em; background: var(--bg-alt); padding: .1em .4em; border-ra
 .dl-card.soon { opacity: .6; box-shadow: none; }
 .dl-head { display: flex; align-items: center; gap: 10px; width: 100%; margin-bottom: 14px; }
 .dl-head h3 { margin: 0; }
+.dl-head .pf-icon { color: var(--ink); }
 .dl-note { color: var(--ink-soft); font-size: .88rem; margin: 10px 0 0; }
 .dl-alt { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line); width: 100%; }
 .dl-alt p { font-size: .92rem; margin: 0; }
