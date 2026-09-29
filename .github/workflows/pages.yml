@@ -1,0 +1,33 @@
+# Builds the site (tools/build_site.py) and deploys it to GitHub Pages.
+# Runs on every push to main, which includes the releases.json update that the app repo's tools/publish_public.sh
+# makes after each release, so the download buttons follow the newest release on their own.
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v5
+      - run: python3 tools/build_site.py
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
