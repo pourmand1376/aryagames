@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Rewrite releases.json from release TAG of this repo: one entry per build, keyed like "android-arm64"
-# (IranianCards-0.11.0-android-arm64.apk), with its size, download URL, and VirusTotal link and result ("scan":
+# (IranianCards-0.11.0-android-arm64.apk), with its size, download URL, SHA-256 (GitHub's digest), and VirusTotal link and result ("scan":
 # {"flagged": 0, "engines": 68}) from the release notes.
 # Used by .github/workflows/on-release.yml after the scan; needs `gh` and `jq`.
 #
@@ -49,6 +49,7 @@ jq --arg version "$version" --arg tag "$TAG" '
             | map((.name | buildkey) as $k
                   | { key: $k,
                       value: ({ name: .name, url: .url, size: .size,
+                                sha256: ((.digest // "") | ltrimstr("sha256:") | if . == "" then null else . end),
                                 virustotal: vtlink($k | vtname), scan: vtscan($k | vtname) }
                               | with_entries(select(.value != null))) })
             | from_entries) }' "$work/release.json" >"$work/releases.json"

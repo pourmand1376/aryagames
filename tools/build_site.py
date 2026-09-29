@@ -46,6 +46,13 @@ PLATFORMS = [
 ]
 
 
+# Store listings still to come, shown on the platform's download card.
+STORES_SOON = {
+    "android": "به‌زودی در کافه‌بازار و مایکت",
+    "ios": "به‌زودی در سیب‌اپ",
+}
+
+
 def fa(text: object) -> str:
     """Persian digits (and ٫ for the dot), e.g. 0.11.0 -> ۰٫۱۱٫۰."""
     return str(text).translate(FA_DIGITS)
@@ -94,7 +101,7 @@ def render_items(items: list[str]) -> str:
 
 
 def render_scan(f: dict) -> str:
-    """VirusTotal badge for one file: its result when known, else a link to the page while it is analyzed."""
+    """VirusTotal badge for one file: "clean" when no engine flagged it, else the count; a link while it is analyzed."""
     url, scan = f.get("virustotal"), f.get("scan")
     if not url:
         return ""
@@ -102,8 +109,7 @@ def render_scan(f: dict) -> str:
     if not scan:
         return f'<a class="vt pending" {href}>ویروس‌توتال: در حال بررسی</a>'
     if scan["flagged"] == 0:
-        return (f'<a class="vt ok" {href}>ویروس‌توتال: سالم '
-                f'<bdi>({fa(scan["flagged"])} از {fa(scan["engines"])})</bdi></a>')
+        return f'<a class="vt ok" {href}>ویروس‌توتال: سالم</a>'
     return (f'<a class="vt warn" {href}>ویروس‌توتال: {fa(scan["flagged"])} هشدار '
             f'از {fa(scan["engines"])} آنتی‌ویروس</a>')
 
@@ -130,8 +136,9 @@ def render_downloads(release: dict) -> str:
         head = (f'<div class="dl-head"><span class="suit{red}" aria-hidden="true">{suit}</span>'
                 f"<h3>{title}</h3></div>")
         if not present:
+            soon = STORES_SOON.get(pid, "به‌زودی")
             cards.append(f'<article class="dl-card soon" data-platform="{pid}">{head}'
-                         f'<p class="dl-note">به‌زودی</p></article>')
+                         f'<p class="dl-note">{soon}</p></article>')
             continue
         key, label, note = present[0]
         f = files[key]
@@ -143,6 +150,8 @@ def render_downloads(release: dict) -> str:
             body.append(f'<div class="dl-alt"><p><a href="{html.escape(f["url"])}" download>{label}</a>'
                         f' <span><bdi>{note}</bdi> · <bdi>{megabytes(f["size"])}</bdi></span></p>'
                         f"{render_scan(f)}</div>")
+        if pid in STORES_SOON:
+            body.append(f'<p class="dl-hint">{STORES_SOON[pid]}</p>')
         if pid == "macos":
             body.append('<p class="dl-hint">بار اول باید از تنظیمات مک، گزینهٔ <bdi dir="ltr">Open Anyway</bdi> را بزنید. '
                         '<a href="#mac-help" data-open="mac-help">چطور؟</a></p>')
