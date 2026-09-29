@@ -33,19 +33,49 @@
       <div class="hero-text">
         <h1>سه‌گانهٔ حکم، قفون و شلم</h1>
         <p class="tagline">بازی‌های اصیل آریایی</p>
-        <p class="lead">همون‌طور که تو دورهمی‌ها بازی می‌کردیم؛ با قواعد اصیل و ربات‌هایی که مثل یه یار خوب بازی می‌کنن. بازی کردن رایگانه.</p>
+        <p class="lead">تجربهٔ بازی به سبک قدیمی؛ مثل قدیما، صاف و ساده. البته به همراه کل‌کل‌های بعدش.</p>
+        <p class="quip">«چرا تک دل من رو بریدی؟»</p>
         <div class="hero-cta">
           <a class="btn primary big" id="hero-download" href="#download">دانلود</a>
           <span class="version">نسخهٔ {{version_fa}} · {{date_fa}}</span>
         </div>
-        <p class="platforms">اندروید · ویندوز · مک · لینوکس · <span class="muted">آیفون به‌زودی</span></p>
+        <p class="platforms">رایگان · اندروید · ویندوز · مک · لینوکس · <span class="muted">آیفون به‌زودی</span></p>
       </div>
-      <div class="fan" aria-hidden="true">
-        <div class="card"><b>A</b><i>♠</i></div>
-        <div class="card red"><b>K</b><i>♥</i></div>
-        <div class="card red"><b>Q</b><i>♦</i></div>
-        <div class="card"><b>J</b><i>♣</i></div>
-        <div class="card red"><b>A</b><i>♥</i></div>
+      <div class="deal">
+        <div class="fan" id="fan" aria-hidden="true">
+          <div class="card" style="--i:-2"><span class="idx"><b>9</b><em>♣</em></span><span class="pips"><span style="left:0%;top:0%">♣</span><span style="left:100%;top:0%">♣</span><span style="left:0%;top:33.3%">♣</span><span style="left:100%;top:33.3%">♣</span><span style="left:50%;top:50%">♣</span><span style="left:0%;top:66.7%" class="down">♣</span><span style="left:100%;top:66.7%" class="down">♣</span><span style="left:0%;top:100%" class="down">♣</span><span style="left:100%;top:100%" class="down">♣</span></span><span class="idx flip"><b>9</b><em>♣</em></span></div>
+          <div class="card red" style="--i:-1"><span class="idx"><b>Q</b><em>♦</em></span><span class="court"><b>Q</b><em>♦</em></span><span class="idx flip"><b>Q</b><em>♦</em></span></div>
+          <div class="card" style="--i:0"><span class="idx"><b>4</b><em>♠</em></span><span class="pips"><span style="left:0%;top:0%">♠</span><span style="left:100%;top:0%">♠</span><span style="left:0%;top:100%" class="down">♠</span><span style="left:100%;top:100%" class="down">♠</span></span><span class="idx flip"><b>4</b><em>♠</em></span></div>
+          <div class="card" style="--i:1"><span class="idx"><b>A</b><em>♠</em></span><span class="ace">♠</span><span class="idx flip"><b>A</b><em>♠</em></span></div>
+          <div class="card red" style="--i:2"><span class="idx"><b>7</b><em>♥</em></span><span class="pips"><span style="left:0%;top:0%">♥</span><span style="left:100%;top:0%">♥</span><span style="left:50%;top:25%">♥</span><span style="left:0%;top:50%">♥</span><span style="left:100%;top:50%">♥</span><span style="left:0%;top:100%" class="down">♥</span><span style="left:100%;top:100%" class="down">♥</span></span><span class="idx flip"><b>7</b><em>♥</em></span></div>
+        </div>
+        <div class="deal-ctl" id="deal-ctl" hidden>
+          <div class="deal-pick">
+            <p>حاکم شمایید! حکم را انتخاب کنید:</p>
+            <div class="suits">
+              <button type="button" data-suit="♣" aria-label="گشنیز" title="گشنیز">♣</button>
+              <button type="button" class="red" data-suit="♦" aria-label="خشت" title="خشت">♦</button>
+              <button type="button" data-suit="♠" aria-label="پیک" title="پیک">♠</button>
+              <button type="button" class="red" data-suit="♥" aria-label="دل" title="دل">♥</button>
+            </div>
+          </div>
+          <div class="deal-done" hidden>
+            <p>حکم: <span id="deal-hokm"></span></p>
+            <button type="button" class="deal-again" id="deal-again">دوباره</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="wrap narrow">
+      <h2>چرا این بازی را ساختم</h2>
+      <div class="about">
+        <p>حکم از بازی‌هایی بوده که از بچگی تو جمع‌های خانوادگی دیدمش و باهاش بزرگ شدم. آخر هر دست هم کلی کل‌کل و دعوای بین یارها برام جذاب بوده.</p>
+        <p>کم‌کم فهمیدم که حکم بازی کردن هم کار هر کسی نیست. کلی قواعد ضمنی وجود داره که بازیکن‌ها بعد از سالیان سال بازی کردن متوجه می‌شن. بازیکن‌های حرفه‌ای دوست دارن بازیکن روبه‌روشون حرفه‌ای باشه و حداقل اصولی رو رعایت کنه؛ چیزهایی مثل جواب یار دادن. اکثر بازی‌های این دور و زمونه این‌ها رو رعایت نمی‌کنن. شاید چون کسی که نوشته‌شون بازیکن حرفه‌ای نبوده!</p>
+        <p>خلاصه می‌خوام بازی‌ای درست کنم که تجربهٔ بازی حرفه‌ای رو براتون بیاره و گه‌گاه تکنیک‌هایی که بعد از سال‌ها بازی یاد گرفتم رو حین بازی به اشتراک بذارم. می‌خوام به بازیکنی تبدیل‌تون کنم که همه دوست دارن باهاش یار بشن :))</p>
+        <p>برای تست قواعدی که می‌گم هم از هوش مصنوعی و شبیه‌سازی هزاران بازی استفاده می‌کنم تا حرف بی‌پایه نزنم. امیدوارم خوشتون بیاد.</p>
       </div>
     </div>
   </section>
@@ -54,20 +84,38 @@
     <div class="wrap">
       <h2>سه بازی، یک میز</h2>
       <div class="games">
-        <article class="game">
-          <span class="suit" aria-hidden="true">♠</span>
-          <h3>حکم</h3>
-          <p>چهار نفر در دو تیم. حاکم خال حکم را انتخاب می‌کند و هر تیمی زودتر هفت دست بگیرد دور را برده؛ کُت و حاکم‌کُت هم حساب است.</p>
+        <article class="game hokm">
+          <header class="game-head">
+            <span class="suit" aria-hidden="true">♠</span>
+            <div>
+              <h3>حکم</h3>
+              <span class="level" aria-label="سختی: ۱ از ۳"><i class="on"></i><i></i><i></i> برای شروع</span>
+            </div>
+          </header>
+          <p>حکم رو همه می‌شناسن، خصوصاً قدیمی‌های جمع‌هامون. اینجا تجربهٔ حکم بازی کردن در کنار حرفه‌ای‌ها رو خلق کردم.</p>
+          <p class="how"><b>چطوری؟</b> حاکم اول کار حکم رو اعلام می‌کنه و بازی شروع می‌شه. هر کس هفت دست جمع کنه برنده است.</p>
         </article>
-        <article class="game">
-          <span class="suit red" aria-hidden="true">♥</span>
-          <h3>شلم <span class="tag">آزمایشی</span></h3>
-          <p>برای کارت‌های زمین و حق انتخاب حکم می‌خوانید. امتیاز از آس‌ها، دهی‌ها، پنجی‌ها و دست‌هایی است که می‌گیرید.</p>
+        <article class="game ghafoon">
+          <header class="game-head">
+            <span class="suit" aria-hidden="true">♣</span>
+            <div>
+              <h3>قفون <span class="tag">آزمایشی</span></h3>
+              <span class="level" aria-label="سختی: ۲ از ۳"><i class="on"></i><i class="on"></i><i></i> چالشی‌تر از حکم</span>
+            </div>
+          </header>
+          <p>قفون از حکم سخت‌تره ولی از شلم آسون‌تر؛ بین این دو تا حساب می‌شه. تو بعضی شهرها مثل یزد و اصفهان بیشتر رواج داره، اما همچنان بازی اصیلی هست. اگه حکم بلدید و تجربهٔ متفاوتی می‌خواید، سراغش برید.</p>
+          <p class="how"><b>فرقش با حکم؟</b> همون اول همه دست رو می‌خونن و حدس می‌زنن چند دست می‌گیرن! اونی که بیشتر بخونه حاکم می‌شه و باید به تعهدش عمل کنه. مثلاً من می‌گم ۱۰ دست می‌گیرم و بعد تو بازی معلوم می‌شه تونستم یا نه.</p>
         </article>
-        <article class="game">
-          <span class="suit" aria-hidden="true">♣</span>
-          <h3>قفون <span class="tag">آزمایشی</span></h3>
-          <p>خانوادهٔ شلم، ولی خوانش روی تعداد دست‌هاست. هر کس جرئت کند سیزده بخواند، «شیت» خوانده.</p>
+        <article class="game shelem">
+          <header class="game-head">
+            <span class="suit" aria-hidden="true">♥</span>
+            <div>
+              <h3>شلم <span class="tag">آزمایشی</span></h3>
+              <span class="level" aria-label="سختی: ۳ از ۳"><i class="on"></i><i class="on"></i><i class="on"></i> برای حرفه‌ای‌ها</span>
+            </div>
+          </header>
+          <p>شلم از هر دو بازی تجربهٔ خاص‌تری می‌سازه و خب تجربهٔ بیشتری هم لازم داره. شلم رو وقتی شروع کنید که تو حکم مدعی هستید و دیگه براتون اون‌قدر جذاب نیست.</p>
+          <p class="how"><b>فرقش با دو تای قبلی؟</b> امتیازدهی پیچیده‌تره. مثل قفون همون اول باید دست‌ها رو بخونید و بگید مثلاً «۱۴۵ امتیاز می‌گیرم». همین پیچیدگی جذابش می‌کنه.</p>
         </article>
       </div>
     </div>
@@ -76,10 +124,12 @@
   <section class="section alt">
     <div class="wrap">
       <ul class="features">
-        <li><h3>قواعد اصیل</h3><p>پیش‌فرض‌ها همان چیزی است که خانواده‌های حکم‌باز می‌شناسند: بازی خلاف عقربه‌های ساعت، کُت و حاکم‌کُت.</p></li>
-        <li><h3>ربات‌های منصف</h3><p>ربات‌ها هیچ‌وقت کارت‌های پنهان را نمی‌بینند. از آسان تا حرفه‌ای، که با هزاران بازی شبیه‌سازی‌شده آموزش دیده.</p></li>
-        <li><h3>یاد بگیرید</h3><p>درس‌ها و چراغ راهنما سر میز، قواعد ضمنی بازی حرفه‌ای مثل جواب یار دادن را نشان می‌دهند.</p></li>
-        <li><h3>رایگان</h3><p>بازی کردن رایگان است؛ دانلود کنید و بازی کنید.</p></li>
+        <li><h3>قواعد دقیق</h3><p>سعی کردم قواعد بازی رو از منابع معتبر و خصوصاً از قدیمی‌ها دربیارم و دقیق رعایت کنم.</p></li>
+        <li><h3>بازی واقعاً رندوم</h3><p>یه چیزی که تو بعضی بازی‌های موجود آزارم می‌داد این بود که واقعاً رندوم نبودن. هر چی بازی رو سخت‌تر می‌کنی، ربات‌های روبه‌رو همچنان احمق‌ان؛ فقط دست شما بدتر می‌شه! من این بازی‌ها رو خیلی دوست دارم و همچین کاری نمی‌کنم.</p></li>
+        <li><h3>حس واقعی شلم و قفون</h3><p>تو جمع‌های خانوادگی می‌گن شلم و قفون رو زیاد بُر نزن تا دست‌های قشنگ‌تری برای خوندن بیاد (برای حکم این‌طور نیست). اینجا هم همون تجربه رو ساختم.</p></li>
+        <li><h3>میلیون‌ها شبیه‌سازی</h3><p>تا همین الان میلیون‌ها بازی شبیه‌سازی کردم. یه محیط ساختم که توش قوانین مختلف بازی رو تست و شبیه‌سازی کنم.</p></li>
+        <li><h3>یادگیری بازی حرفه‌ای <span class="tag">به‌زودی</span></h3><p>علت انجام شبیه‌سازی این بوده که بتونم قواعد بازی حرفه‌ای حکم رو یاد بگیرم و البته یاد بدم. هر بازیکن حرفه‌ای برای خودش ده‌ها قانون و شهود داره که لزوماً نمی‌تونه بیان‌شون کنه، اما موقع بازی می‌تونه بفهمه. اینجا با شبیه‌سازی‌های بازی‌های مختلف قوانینی رو پیدا کردم که واقعاً کار می‌کنند و جواب می‌دن!</p></li>
+        <li><h3>تحلیل بعد از بازی <span class="tag">به‌زودی</span></h3><p>بعد از هر بازی، به سبک کل‌کل‌های بازیکن‌های قدیمی، می‌تونید ببینید چطوری می‌شد بهتر بازی کرد. آیا نکاتی وجود داشت که اگر رعایت می‌کردم بازی بهتر می‌شد؟ یا این که رندوم بود دیگه؟</p></li>
       </ul>
     </div>
   </section>
@@ -92,6 +142,11 @@
       <div class="downloads">
 {{downloads}}
       </div>
+      <ul class="stores" aria-label="فروشگاه‌ها">
+        <li>انتشار در کافه‌بازار <span class="tag">به‌زودی</span></li>
+        <li>انتشار در مایکت <span class="tag">به‌زودی</span></li>
+        <li>انتشار در سیب‌اپ (آیفون) <span class="tag">به‌زودی</span></li>
+      </ul>
 
       <div class="help">
         <details>
@@ -117,23 +172,25 @@
           <summary>اجرا روی لینوکس</summary>
           <p>فایل zip را باز کنید، به فایل برنامه اجازهٔ اجرا بدهید (<code dir="ltr">chmod +x</code>) و اجرایش کنید.</p>
         </details>
-        <details>
-          <summary>از کجا بدانم فایل سالم است؟</summary>
-          <p>هر فایل بعد از انتشار با ویروس‌توتال بررسی می‌شود و لینک نتیجه کنار دکمهٔ دانلود آمده است. همهٔ نسخه‌ها هم در <a href="{{releases_url}}">صفحهٔ انتشارها در گیت‌هاب</a> هستند.</p>
-        </details>
       </div>
     </div>
   </section>
 
-  <section class="section alt">
+  <section id="safety" class="section alt">
     <div class="wrap narrow">
-      <h2>چرا این بازی را ساختم</h2>
+      <h2>چطوری بفهمم این بازی مخرب نیست و ویروس نداره؟</h2>
       <div class="about">
-        <p>حکم از بازی‌هایی بوده که از بچگی تو جمع‌های خانوادگی دیدمش و باهاش بزرگ شدم. آخر هر دست هم کلی کل‌کل و دعوای بین یارها برام جذاب بوده.</p>
-        <p>کم‌کم فهمیدم که حکم بازی کردن هم کار هر کسی نیست. کلی قواعد ضمنی وجود داره که بازیکن‌ها بعد از سالیان سال بازی کردن متوجه می‌شن. بازیکن‌های حرفه‌ای دوست دارن بازیکن روبه‌روشون حرفه‌ای باشه و حداقل اصولی رو رعایت کنه؛ چیزهایی مثل جواب یار دادن. اکثر بازی‌های این دور و زمونه این‌ها رو رعایت نمی‌کنن. شاید چون کسی که نوشته‌شون بازیکن حرفه‌ای نبوده!</p>
-        <p>خلاصه می‌خوام بازی‌ای درست کنم که تجربهٔ بازی حرفه‌ای رو براتون بیاره و گه‌گاه تکنیک‌هایی که بعد از سال‌ها بازی یاد گرفتم رو حین بازی به اشتراک بذارم. می‌خوام به بازیکنی تبدیل‌تون کنم که همه دوست دارن باهاش یار بشن :))</p>
-        <p>برای تست قواعدی که می‌گم هم از هوش مصنوعی و شبیه‌سازی هزاران بازی استفاده می‌کنم تا حرف بی‌پایه نزنم. امیدوارم خوشتون بیاد.</p>
+        <p>برنامه‌نویس‌های عادی به‌راحتی اکانت برنامه‌نویسی اپل، مایکروسافت استور و گوگل‌پلی رو دریافت می‌کنن. ماها که تو ایران هستیم و تحریم شدیم، نمی‌تونیم این کارها رو بکنیم. به‌خاطر همین خودم فایل‌ها رو منتشر می‌کنم. اما این به این معنا نیست که از هیچ نظر چک نمی‌شن.</p>
+        <p>فایل‌ها بعد از هر انتشار در <a href="{{releases_url}}">صفحهٔ انتشارها در گیت‌هاب</a> منتشر می‌شن. اونجا کنار هر فایل هش (Hash) اون فایل هم نوشته شده و همون فایل، با همون هش، داخل <a href="https://www.virustotal.com" rel="noopener">VirusTotal</a> گذاشته می‌شه و با بیش از ۶۰ آنتی‌ویروس بررسی می‌شه. نتیجهٔ هر فایل کنار دکمهٔ دانلودش آمده است.</p>
       </div>
+      <details class="verify">
+        <summary>خودم چطوری هش فایل رو چک کنم؟</summary>
+        <p>بعد از دانلود، هش فایل رو حساب کنید و با هشی که در گیت‌هاب و ویروس‌توتال نوشته شده مقایسه کنید. اگه یکی بود، فایلی که دارید همونیه که بررسی شده.</p>
+        <ul>
+          <li>ویندوز، در Command Prompt: <code dir="ltr">certutil -hashfile IranianCards-{{version}}-windows.zip SHA256</code></li>
+          <li>مک و لینوکس، در Terminal: <code dir="ltr">shasum -a 256 IranianCards-{{version}}-macos-arm64.zip</code></li>
+        </ul>
+      </details>
     </div>
   </section>
 
