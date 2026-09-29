@@ -29,6 +29,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: main  # today's scripts, even for an older release's tag
       - name: Scan the builds and write the results into the release notes
         env:
           GH_TOKEN: ${{ github.token }}
