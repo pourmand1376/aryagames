@@ -4,11 +4,14 @@ The public home of **Hokm Shelem Ghafoon**. It hosts the website (GitHub Pages) 
 
 ## How a release gets here
 1. The app repo releases as usual (`just release-all patch`, etc.).
-2. After its VirusTotal scan, its `publish-public.yml` runs `tools/publish_public.sh`, which:
-   - creates the same release here with the APKs and zips (no play models),
-   - writes release notes that link to `changelog.html#vX.Y.Z` plus the VirusTotal results,
-   - rewrites `releases.json` here, which triggers the Pages deploy.
-3. The download buttons now point at the new version, with the version in each URL (like obsidian.md/download).
+2. Its `tools/publish_public.sh` copies the APKs and zips (not the play models) to a release with the same tag here. The release notes link to `changelog.html#vX.Y.Z`.
+3. `.github/workflows/on-release.yml` runs when that release is published or edited:
+   - `tools/virustotal.sh` scans every file on VirusTotal, **waits for the verdicts**, and writes them into the release notes;
+   - `tools/update_releases_json.sh` points `releases.json` at the release (newest stable version only) and commits it;
+   - the site is rebuilt and deployed, so the download buttons show the new version with its scan results.
+4. To redo a scan: Actions → On release → Run workflow, or `just virustotal vX.Y.Z` from the app repo.
+
+Secrets here: `VIRUSTOTAL_API_KEY` (without it the scan is skipped with a warning).
 
 ## What you edit by hand
 - `changelog.md`: public release notes in Persian, newest first (`## X.Y.Z | YYYY-MM-DD`, then `- ` lines). Add the entry when you release; the release notes link to its anchor.
