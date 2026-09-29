@@ -163,7 +163,7 @@ code { font-size: .9em; background: var(--bg-alt); padding: .1em .4em; border-ra
 .deal-ctl > div { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .deal-ctl > div[hidden] { display: none; }
 .deal-ctl p { margin: 0; font-weight: 600; opacity: .9; }
-.suits { display: flex; gap: 10px; }
+.suits { display: flex; gap: 10px; direction: ltr; }  /* ♣ ♦ ♠ ♥ left to right, like the hand above */
 .suits button, .deal-again {
   font: inherit; cursor: pointer; border-radius: 12px; color: var(--parchment);
   background: rgba(255, 255, 255, .08); border: 1px solid rgba(244, 236, 216, .28);
