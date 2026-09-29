@@ -96,8 +96,8 @@ code { font-size: .9em; background: var(--bg-alt); padding: .1em .4em; border-ra
   display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; gap: 32px;
   padding-top: 72px; padding-bottom: 88px;
 }
-.eyebrow { color: var(--saffron); font-weight: 700; margin-bottom: .6em; }
-.hero h1 { font-size: clamp(1.8rem, 4.2vw, 2.9rem); font-weight: 800; margin-bottom: .5em; }
+.hero h1 { font-size: clamp(1.8rem, 4.2vw, 2.9rem); font-weight: 800; margin-bottom: .2em; }
+.tagline { color: var(--saffron); font-size: clamp(1.15rem, 2.4vw, 1.5rem); font-weight: 700; margin-bottom: .9em; }
 .lead { font-size: 1.1rem; opacity: .9; max-width: 34em; }
 .hero-cta { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin: 28px 0 12px; }
 .version { opacity: .75; font-size: .95rem; }
