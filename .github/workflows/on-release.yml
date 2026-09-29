@@ -1,14 +1,16 @@
 # After every release here: scan its builds on VirusTotal and wait for the verdicts (tools/virustotal.sh), point
 # releases.json at it (tools/update_releases_json.sh), and redeploy the site so the download buttons follow.
-# - Runs when a release is published, and again when one is edited (the app repo's tools/publish_public.sh edits it
-#   after adding files, e.g. the macOS zips). This workflow's own edits use GITHUB_TOKEN, so they don't start it again.
+# - Runs when a release is published, and on a "rescan" repository_dispatch, which the app repo's tools/publish_public.sh
+#   sends after adding files to an existing release (e.g. the macOS zips). GitHub sends no release event for new files.
 # - Run it by hand for any release: Actions tab -> On release -> Run workflow, or from the app repo `just virustotal v0.11.0`.
 # Needs the repo secret VIRUSTOTAL_API_KEY (virustotal.com -> Profile -> API Key); without it the scan is skipped.
 name: On release
 
 on:
   release:
-    types: [published, edited]
+    types: [published]
+  repository_dispatch:
+    types: [rescan]
   workflow_dispatch:
     inputs:
       tag:
@@ -18,7 +20,7 @@ on:
 
 # One run per tag; a newer event for the same tag replaces a run still in progress.
 concurrency:
-  group: on-release-${{ inputs.tag || github.event.release.tag_name }}
+  group: on-release-${{ inputs.tag || github.event.release.tag_name || github.event.client_payload.tag }}
   cancel-in-progress: true
 
 jobs:
@@ -35,7 +37,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           VIRUSTOTAL_API_KEY: ${{ secrets.VIRUSTOTAL_API_KEY }}
-          TAG: ${{ inputs.tag || github.event.release.tag_name }}
+          TAG: ${{ inputs.tag || github.event.release.tag_name || github.event.client_payload.tag }}
         run: tools/virustotal.sh "$TAG"
 
   sync:
@@ -52,12 +54,12 @@ jobs:
       - name: Point releases.json at this release
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ inputs.tag || github.event.release.tag_name }}
+          TAG: ${{ inputs.tag || github.event.release.tag_name || github.event.client_payload.tag }}
         run: tools/update_releases_json.sh "$TAG"
       - id: commit
         name: Commit releases.json
         env:
-          TAG: ${{ inputs.tag || github.event.release.tag_name }}
+          TAG: ${{ inputs.tag || github.event.release.tag_name || github.event.client_payload.tag }}
         run: |
           if git diff --quiet releases.json; then
             echo "changed=false" >>"$GITHUB_OUTPUT"; exit 0

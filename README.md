@@ -5,7 +5,7 @@ The public home of **Hokm Shelem Ghafoon**. It hosts the website (GitHub Pages) 
 ## How a release gets here
 1. The app repo releases as usual (`just release-all patch`, etc.).
 2. Its `tools/publish_public.sh` copies the APKs and zips (not the play models) to a release with the same tag here. The release notes link to `changelog.html#vX.Y.Z`.
-3. `.github/workflows/on-release.yml` runs when that release is published or edited:
+3. `.github/workflows/on-release.yml` runs when that release is published, or when the app repo adds files to it (a `rescan` repository dispatch):
    - `tools/virustotal.sh` scans every file on VirusTotal, **waits for the verdicts**, and writes them into the release notes;
    - `tools/update_releases_json.sh` points `releases.json` at the release (newest stable version only) and commits it;
    - the site is rebuilt and deployed, so the download buttons show the new version with its scan results.
