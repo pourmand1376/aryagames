@@ -93,6 +93,34 @@ def render_items(items: list[str]) -> str:
     return "".join(f"<li>{html.escape(i)}</li>" for i in items)
 
 
+def render_scan(f: dict) -> str:
+    """VirusTotal badge for one file: its result when known, else a link to the page while it is analyzed."""
+    url, scan = f.get("virustotal"), f.get("scan")
+    if not url:
+        return ""
+    href = f'href="{html.escape(url)}" rel="noopener"'
+    if not scan:
+        return f'<a class="vt pending" {href}>ویروس‌توتال: در حال بررسی</a>'
+    if scan["flagged"] == 0:
+        return (f'<a class="vt ok" {href}>ویروس‌توتال: سالم '
+                f'<bdi>({fa(scan["flagged"])} از {fa(scan["engines"])})</bdi></a>')
+    return (f'<a class="vt warn" {href}>ویروس‌توتال: {fa(scan["flagged"])} هشدار '
+            f'از {fa(scan["engines"])} آنتی‌ویروس</a>')
+
+
+def render_scan_summary(release: dict) -> str:
+    """One line over the download cards for the whole release."""
+    files = list(release.get("files", {}).values())
+    scans = [f.get("scan") for f in files]
+    if not files or not all(scans):
+        return ""
+    if all(s["flagged"] == 0 for s in scans):
+        return (f'<p class="vt-summary ok">همهٔ فایل‌های نسخهٔ {fa(release["version"])} در ویروس‌توتال '
+                f"بررسی شده‌اند و هیچ آنتی‌ویروسی هشدار نداده است.</p>")
+    return (f'<p class="vt-summary warn">بعضی آنتی‌ویروس‌ها برای فایل‌های این نسخه هشدار داده‌اند؛ '
+            f"جزئیات کنار هر فایل آمده است.</p>")
+
+
 def render_downloads(release: dict) -> str:
     files = release.get("files", {})
     cards = []
@@ -108,19 +136,13 @@ def render_downloads(release: dict) -> str:
         key, label, note = present[0]
         f = files[key]
         body = [f'<a class="btn primary" href="{html.escape(f["url"])}" download>{label}</a>',
-                f'<p class="dl-note"><bdi>{note}</bdi> · <bdi>{megabytes(f["size"])}</bdi></p>']
+                f'<p class="dl-note"><bdi>{note}</bdi> · <bdi>{megabytes(f["size"])}</bdi></p>',
+                render_scan(f)]
         for key, label, note in present[1:]:
             f = files[key]
-            body.append(f'<p class="dl-alt"><a href="{html.escape(f["url"])}" download>{label}</a>'
-                        f' <span><bdi>{note}</bdi> · <bdi>{megabytes(f["size"])}</bdi></span></p>')
-        scans = [files[k].get("virustotal") for k, _, _ in present if files[k].get("virustotal")]
-        if scans:
-            links = " ".join(f'<a href="{html.escape(u)}" rel="noopener">{fa(i + 1)}</a>'
-                             for i, u in enumerate(scans))
-            body.append(f'<p class="dl-scan">بررسی ویروس‌توتال: {links}</p>'
-                        if len(scans) > 1 else
-                        f'<p class="dl-scan"><a href="{html.escape(scans[0])}" rel="noopener">'
-                        f"بررسی ویروس‌توتال</a></p>")
+            body.append(f'<div class="dl-alt"><p><a href="{html.escape(f["url"])}" download>{label}</a>'
+                        f' <span><bdi>{note}</bdi> · <bdi>{megabytes(f["size"])}</bdi></span></p>'
+                        f"{render_scan(f)}</div>")
         cards.append(f'<article class="dl-card" data-platform="{pid}">{head}{"".join(body)}</article>')
     return "\n".join(cards)
 
@@ -148,6 +170,7 @@ def main() -> None:
         "version_fa": fa(release["version"]),
         "date_fa": jalali(release["date"]),
         "downloads": render_downloads(release),
+        "scan_summary": render_scan_summary(release),
         "latest_notes": render_items(latest["items"]) if latest else "",
         "changelog": render_changelog(entries),
         "repo_url": REPO_URL,

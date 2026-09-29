@@ -168,9 +168,28 @@ code { font-size: .9em; background: var(--bg-alt); padding: .1em .4em; border-ra
 .dl-head { display: flex; align-items: center; gap: 10px; width: 100%; margin-bottom: 14px; }
 .dl-head h3 { margin: 0; }
 .dl-note { color: var(--ink-soft); font-size: .88rem; margin: 10px 0 0; }
-.dl-alt { font-size: .92rem; margin: 10px 0 0; }
+.dl-alt { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line); width: 100%; }
+.dl-alt p { font-size: .92rem; margin: 0; }
 .dl-alt span { color: var(--ink-soft); font-size: .85rem; }
-.dl-scan { font-size: .85rem; margin: auto 0 0; padding-top: 12px; color: var(--ink-soft); }
+
+/* VirusTotal result per file, and one line for the whole release */
+.vt {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 8px;
+  font-size: .82rem; font-weight: 600; text-decoration: none;
+  padding: .2em .75em; border-radius: 999px;
+}
+.vt::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.vt.ok { color: #1E7F5C; background: color-mix(in srgb, #1E7F5C 12%, transparent); }
+.vt.warn { color: var(--pomegranate); background: color-mix(in srgb, var(--pomegranate) 12%, transparent); }
+.vt.pending { color: var(--ink-soft); background: color-mix(in srgb, var(--ink-soft) 12%, transparent); }
+.vt:hover { text-decoration: underline; }
+.vt-summary { margin: 4px 0 0; font-size: .95rem; }
+.vt-summary.ok { color: #1E7F5C; }
+.vt-summary.warn { color: var(--pomegranate); }
+@media (prefers-color-scheme: dark) {
+  .vt.ok, .vt-summary.ok { color: #5FD3A5; }
+  .vt.ok { background: color-mix(in srgb, #5FD3A5 14%, transparent); }
+}
 
 .help { margin-top: 40px; display: grid; gap: 10px; }
 .help details { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 18px; }

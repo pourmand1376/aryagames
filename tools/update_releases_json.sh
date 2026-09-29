@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Rewrite releases.json from release TAG of this repo: one entry per build, keyed like "android-arm64"
-# (IranianCards-0.11.0-android-arm64.apk), with its size, download URL and VirusTotal link from the release notes.
+# (IranianCards-0.11.0-android-arm64.apk), with its size, download URL, and VirusTotal link and result ("scan":
+# {"flagged": 0, "engines": 68}) from the release notes.
 # Used by .github/workflows/on-release.yml after the scan; needs `gh` and `jq`.
 #
 #   tools/update_releases_json.sh TAG
@@ -38,14 +39,17 @@ jq --arg version "$version" --arg tag "$TAG" '
               elif startswith("macos-") then "macOS " + ltrimstr("macos-")
               else . end;
   .body as $body
-  | def vtlink($l): ($body | split("\n") | map(select(startswith("- [\($l):")))[0] // "")
-                    | (capture("\\((?<u>https://www\\.virustotal\\.com/[^)]+)\\)").u? // null);
+  | def vtline($l): $body | split("\n") | map(select(startswith("- [\($l):")))[0] // "";
+    def vtlink($l): vtline($l) | (capture("\\((?<u>https://www\\.virustotal\\.com/[^)]+)\\)").u? // null);
+    def vtscan($l): vtline($l) | (capture(": (?<f>[0-9]+)/(?<e>[0-9]+) engines flagged")
+                                  | { flagged: (.f | tonumber), engines: (.e | tonumber) })? // null;
   { version: $version, tag: $tag, date: (.publishedAt[:10]),
     files: (.assets
             | map(select(.name | test("\\.(apk|zip)$")))
             | map((.name | buildkey) as $k
                   | { key: $k,
-                      value: ({ name: .name, url: .url, size: .size, virustotal: vtlink($k | vtname) }
+                      value: ({ name: .name, url: .url, size: .size,
+                                virustotal: vtlink($k | vtname), scan: vtscan($k | vtname) }
                               | with_entries(select(.value != null))) })
             | from_entries) }' "$work/release.json" >"$work/releases.json"
 
