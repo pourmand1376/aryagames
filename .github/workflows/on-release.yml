@@ -47,6 +47,7 @@ jobs:
       contents: write
     outputs:
       changed: ${{ steps.commit.outputs.changed }}
+      sha: ${{ steps.commit.outputs.sha }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -70,6 +71,7 @@ jobs:
           git pull --rebase origin main
           git push origin HEAD:main
           echo "changed=true" >>"$GITHUB_OUTPUT"
+          echo "sha=$(git rev-parse HEAD)" >>"$GITHUB_OUTPUT"
 
   # A push made with GITHUB_TOKEN doesn't start pages.yml on its own, so deploy from here.
   deploy:
@@ -80,3 +82,5 @@ jobs:
       pages: write
       id-token: write
     uses: ./.github/workflows/pages.yml
+    with:
+      ref: ${{ needs.sync.outputs.sha }}

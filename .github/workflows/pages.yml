@@ -7,6 +7,11 @@ on:
     branches: [main]
   workflow_dispatch:
   workflow_call:
+    inputs:
+      ref:
+        description: Commit to build; on-release.yml passes the one it just pushed
+        type: string
+        required: false
 
 permissions:
   contents: read
@@ -26,7 +31,9 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
-          ref: main  # from on-release.yml, the commit it just pushed rather than the release's tag
+          # From on-release.yml, the exact commit it just pushed. With plain `main` the release run's deploy once
+          # built the commit before its own releases.json update, and the site stayed on the old version.
+          ref: ${{ inputs.ref || 'main' }}
       - run: python3 tools/build_site.py
       - uses: actions/upload-pages-artifact@v4
         with:
