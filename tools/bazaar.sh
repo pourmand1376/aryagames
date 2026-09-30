@@ -75,7 +75,7 @@ if [[ -n "${DRY_RUN:-}" ]]; then
   if [[ -n "${BAZAAR_API_SECRET:-}" ]]; then
     echo "Checking the secret with a read-only call (is there an open draft release?):"
     reply="$(curl -sS --retry 3 -H "CAFEBAZAAR-PISHKHAN-API-SECRET: $BAZAAR_API_SECRET" -H 'Accept: application/json' \
-      "$API/apps/releases/last-uncommitted")"
+      "$API/apps/releases/last-uncommitted/")"
     echo "$reply"
     jq -e '.type == "success" or .type == "not-exists"' <<<"$reply" >/dev/null \
       || { echo "::error::Bazaar refused the secret or the call"; exit 1; }
@@ -83,7 +83,7 @@ if [[ -n "${DRY_RUN:-}" ]]; then
   exit 0
 fi
 
-if expect=not-exists bazaar "$API/apps/releases/last-uncommitted" >/dev/null; then
+if expect=not-exists bazaar "$API/apps/releases/last-uncommitted/" >/dev/null; then
   echo "Creating a release on Bazaar"
   bazaar -X POST -H 'Content-Type: application/json' -d '{}' "$API/apps/releases/"
 else
