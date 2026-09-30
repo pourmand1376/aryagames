@@ -11,7 +11,10 @@ The public home of **Hokm Shelem Ghafoon**. It hosts the website (GitHub Pages) 
    - the site is rebuilt and deployed, so the download buttons show the new version with its scan results.
 4. To redo a scan: Actions → On release → Run workflow, or `just virustotal vX.Y.Z` from the app repo.
 
-Secrets here: `VIRUSTOTAL_API_KEY` (without it the scan is skipped with a warning).
+5. To publish to Cafe Bazaar (by hand for now): Actions → Cafe Bazaar → Run workflow with the tag, or `gh workflow run bazaar.yml -f tag=vX.Y.Z`. `tools/bazaar.sh` takes the release's Android APKs, uploads them through the Pishkhan API, and commits the release with that version's `changelog.md` notes; Bazaar publishes it once its review passes. Tick "dry run" to check the secret and see what it would send, without changing anything.
+6. Myket works the same way: Actions → Myket → Run workflow, or `gh workflow run myket.yml -f tag=vX.Y.Z` (`tools/myket.sh`).
+
+Secrets here: `VIRUSTOTAL_API_KEY` (without it the scan is skipped with a warning), `BAZAAR_API_SECRET` (Pishkhan → the app → API), `MYKET_ACCESS_TOKEN` (Myket developer panel → the app → in-app products → verification token).
 
 ## What you edit by hand
 - `changelog.md`: public release notes in Persian, newest first (`## X.Y.Z | YYYY-MM-DD`, then `- ` lines). Add the entry when you release; the release notes link to its anchor.

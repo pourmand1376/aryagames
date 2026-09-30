@@ -1,0 +1,48 @@
+# Publish a release's Android APKs to Cafe Bazaar (tools/bazaar.sh). Run by hand for now:
+# Actions tab -> Cafe Bazaar -> Run workflow, or `gh workflow run bazaar.yml -f tag=v0.11.0`.
+# Needs the repo secret BAZAAR_API_SECRET (Pishkhan -> the app -> API).
+name: Cafe Bazaar
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag, e.g. v0.11.0
+        type: string
+        required: true
+      rollout:
+        description: Staged rollout percentage
+        type: number
+        default: 100
+      auto_publish:
+        description: Publish on its own once Bazaar's review passes
+        type: boolean
+        default: true
+      dry_run:
+        description: Only check the secret and show what would be sent
+        type: boolean
+        default: false
+
+concurrency:
+  group: bazaar
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main  # today's script and changelog.md, even for an older tag
+      - name: Upload the APKs and commit the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BAZAAR_API_SECRET: ${{ secrets.BAZAAR_API_SECRET }}
+          TAG: ${{ inputs.tag }}
+          ROLLOUT: ${{ inputs.rollout }}
+          AUTO_PUBLISH: ${{ inputs.auto_publish }}
+          DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
+        run: tools/bazaar.sh "$TAG"
