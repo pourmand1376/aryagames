@@ -182,12 +182,11 @@ code { font-size: .9em; background: var(--bg-alt); padding: .1em .4em; border-ra
 .section.alt { background: var(--bg-alt); }
 .sub { color: var(--ink-soft); margin-top: -.3em; }
 
-/* The Aparat video, in the frame ratio Aparat's own embed code uses */
+/* The Aparat video: its embed script sizes the player, this only rounds and frames it */
 .video-frame {
-  position: relative; aspect-ratio: 100 / 57; margin-top: 20px; overflow: hidden;
+  margin-top: 20px; overflow: hidden;
   border-radius: 16px; background: var(--lapis-deep); box-shadow: var(--shadow);
 }
-.video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 
 .games { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 1fr; gap: 20px; margin-top: 24px; }
 .game {
