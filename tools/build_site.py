@@ -216,10 +216,14 @@ def main() -> None:
     for page in SITE.glob("*.html"):
         (OUT / page.name).write_text(fill(page.read_text(encoding="utf-8"), values), encoding="utf-8")
     shutil.copy(ROOT / "releases.json", OUT / "releases.json")
-    # The app's update check (Menu/UpdateCheck.cs in the app repo) reads this once a day: when the player's build is
-    # older and this release is at least a week old, it points them at the url. Keep the keys stable.
-    latest = {"version": release["version"], "date": release["date"], "url": SITE_URL}
-    (OUT / "latest_version").write_text(json.dumps(latest) + "\n", encoding="utf-8")
+    # The app's update check (Menu/UpdateCheck.cs in the app repo) reads latest_version.json once a day: when the
+    # player's build is older and this release is at least a week old, it points them at the url. Keep the keys stable.
+    # Pages types files by extension, so the .json is served as JSON; /latest_version (a folder's index.html, same
+    # text) is for people, since an extensionless file would be downloaded instead of shown.
+    latest = json.dumps({"version": release["version"], "date": release["date"], "url": SITE_URL}) + "\n"
+    (OUT / "latest_version.json").write_text(latest, encoding="utf-8")
+    (OUT / "latest_version").mkdir()
+    (OUT / "latest_version" / "index.html").write_text(latest, encoding="utf-8")
     (OUT / ".nojekyll").touch()
     print(f"Built {OUT.relative_to(ROOT)}/ for v{release['version']} "
           f"({len(release.get('files', {}))} files, {len(entries)} changelog entries)")

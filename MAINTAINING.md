@@ -21,7 +21,7 @@ Secrets here: `VIRUSTOTAL_API_KEY` (without it the scan is skipped with a warnin
 - `site/`: the pages (`index.html`, `changelog.html`) and `assets/`. `{{placeholders}}` are filled by the build.
 
 ## In-app update check
-The build also writes `https://aryagames.ir/latest_version`, from `releases.json`: `{"version": "0.13.0", "date": "2026-10-01", "url": "https://aryagames.ir"}`. The app asks for it at most once a day; when the player's build is older and that release is at least a week old, it tells them a new version is out and offers a button to `url`. It never downloads anything itself (Bazaar and Myket will have their own update path). Keep the keys stable.
+The build also writes `https://aryagames.ir/latest_version.json` (and the same text at `/latest_version`, for a browser), from `releases.json`: `{"version": "0.13.0", "date": "2026-10-01", "url": "https://aryagames.ir"}`. The app asks for it at most once a day; when the player's build is older and that release is at least a week old, it tells them a new version is out and offers a button to `url`. It never downloads anything itself (Bazaar and Myket will have their own update path). Keep the keys stable.
 
 ## Build and preview
 ```sh
