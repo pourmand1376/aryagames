@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
 OUT = ROOT / "_site"
 REPO_URL = "https://github.com/pourmand1376/aryagames"
+SITE_URL = "https://aryagames.ir"
 
 FA_DIGITS = str.maketrans("0123456789.", "۰۱۲۳۴۵۶۷۸۹٫")
 JALALI_MONTHS = ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور",
@@ -214,7 +215,11 @@ def main() -> None:
     shutil.copytree(SITE, OUT, ignore=shutil.ignore_patterns("*.html", ".DS_Store"))
     for page in SITE.glob("*.html"):
         (OUT / page.name).write_text(fill(page.read_text(encoding="utf-8"), values), encoding="utf-8")
-    shutil.copy(ROOT / "releases.json", OUT / "releases.json")  # for a future in-app update check
+    shutil.copy(ROOT / "releases.json", OUT / "releases.json")
+    # The app's update check (Menu/UpdateCheck.cs in the app repo) reads this once a day: when the player's build is
+    # older and this release is at least a week old, it points them at the url. Keep the keys stable.
+    latest = {"version": release["version"], "date": release["date"], "url": SITE_URL}
+    (OUT / "latest_version").write_text(json.dumps(latest) + "\n", encoding="utf-8")
     (OUT / ".nojekyll").touch()
     print(f"Built {OUT.relative_to(ROOT)}/ for v{release['version']} "
           f"({len(release.get('files', {}))} files, {len(entries)} changelog entries)")
