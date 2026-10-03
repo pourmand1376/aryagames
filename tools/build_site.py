@@ -60,7 +60,11 @@ def icon(pid: str) -> str:
 # Store listings still to come, shown on the platform's download card.
 STORES_SOON = {
     "android": "به‌زودی در کافه‌بازار و مایکت",
-    "ios": "به‌زودی در سیب‌اپ",
+}
+
+# Platforms published in a store: (button text, listing URL), the card's main button when there is no file.
+STORES = {
+    "ios": ("دریافت از سیب‌اپ", "https://sibapp.com/applications/hokm-ghafoon-and-shelemtrio"),
 }
 
 
@@ -142,7 +146,7 @@ def render_platforms() -> str:
     """The hero's platform line: a logo per platform, named in its tooltip; ones without a build are dimmed."""
     items = []
     for pid, title, options in PLATFORMS:
-        soon = not options
+        soon = not options and pid not in STORES
         label = f"{title} (به‌زودی)" if soon else title
         items.append(f'<span class="pf{" soon" if soon else ""}" title="{label}" role="img" aria-label="{label}">'
                      f'{icon(pid)}</span>')
@@ -155,6 +159,12 @@ def render_downloads(release: dict) -> str:
     for pid, title, options in PLATFORMS:
         present = [(key, label, note) for key, label, note in options if key in files]
         head = f'<div class="dl-head">{icon(pid)}<h3>{title}</h3></div>'
+        if not present and pid in STORES:
+            text, url = STORES[pid]
+            cards.append(f'<article class="dl-card" data-platform="{pid}">{head}'
+                         f'<a class="btn primary" href="{html.escape(url)}" rel="noopener">{text}</a>'
+                         f'<p class="dl-note">آیفون و آیپد</p></article>')
+            continue
         if not present:
             soon = STORES_SOON.get(pid, "به‌زودی")
             cards.append(f'<article class="dl-card soon" data-platform="{pid}">{head}'
