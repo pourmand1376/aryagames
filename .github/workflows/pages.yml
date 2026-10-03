@@ -1,14 +1,12 @@
 # Builds the site (tools/build_site.py) and deploys it to GitHub Pages.
-# Runs on every push to main, from on-release.yml after it points releases.json at a new release, and on a
-# "deploy-site" repository_dispatch, which the app repo's public release (tools/publish_public.sh) sends.
+# Runs on every push to main, and from on-release.yml once a release's scan and releases.json update are done: a new
+# release reaches the site only after its VirusTotal verdicts.
 name: Pages
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
-  repository_dispatch:
-    types: [deploy-site]
   workflow_call:
     inputs:
       ref:

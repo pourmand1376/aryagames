@@ -1,5 +1,6 @@
 # After every release here: scan its builds on VirusTotal and wait for the verdicts (tools/virustotal.sh), point
-# releases.json at it (tools/update_releases_json.sh), and redeploy the site so the download buttons follow.
+# releases.json at it (tools/update_releases_json.sh), and only then redeploy the site, every run, so the download
+# buttons follow. This is the only deploy a release makes; nothing deploys the site ahead of the scan.
 # - Runs when a release is published, and on a "rescan" repository_dispatch, which the app repo's tools/publish_public.sh
 #   sends after adding files to an existing release (e.g. the macOS zips). GitHub sends no release event for new files.
 # - Run it by hand for any release: Actions tab -> On release -> Run workflow, or from the app repo `just virustotal v0.11.0`.
@@ -73,14 +74,14 @@ jobs:
           echo "changed=true" >>"$GITHUB_OUTPUT"
           echo "sha=$(git rev-parse HEAD)" >>"$GITHUB_OUTPUT"
 
-  # A push made with GITHUB_TOKEN doesn't start pages.yml on its own, so deploy from here.
+  # A push made with GITHUB_TOKEN doesn't start pages.yml on its own, so deploy from here, also when releases.json
+  # didn't change (a rescan): the site is built from main as it is after the scan.
   deploy:
     needs: sync
-    if: needs.sync.outputs.changed == 'true'
     permissions:
       contents: read
       pages: write
       id-token: write
     uses: ./.github/workflows/pages.yml
     with:
-      ref: ${{ needs.sync.outputs.sha }}
+      ref: ${{ needs.sync.outputs.sha || 'main' }}
