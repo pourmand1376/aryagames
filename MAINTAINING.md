@@ -17,7 +17,7 @@ The public home of **Hokm Shelem Ghafoon**. It hosts the website (GitHub Pages) 
 Secrets here: `VIRUSTOTAL_API_KEY` (without it the scan is skipped with a warning), `BAZAAR_API_SECRET` (Pishkhan → the app → API), `MYKET_ACCESS_TOKEN` (Myket developer panel → the app → in-app products → verification token).
 
 ## What you edit by hand
-- `changelog.md`: public release notes in Persian, newest first (`## X.Y.Z | YYYY-MM-DD`, then `- ` lines). Add the entry when you release; the release notes link to its anchor.
+- `changelog.md`: public release notes in Persian, newest first (`## X.Y.Z | YYYY-MM-DD`, then `- ` lines). Add the entry when you release; the release notes link to its anchor. Without one, the Myket and Bazaar scripts send a generic «بهبودها و رفع اشکال‌ها.» and warn.
 - `site/`: the pages (`index.html`, `changelog.html`) and `assets/`. `{{placeholders}}` are filled by the build.
 
 ## In-app update check

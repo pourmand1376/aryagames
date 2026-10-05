@@ -30,13 +30,13 @@ fi
 work="$(mktemp -d)"
 trap 'rm -rf "$work"' EXIT
 
-# The "- " lines of version $version in changelog.md, without the "- ".
+# The "- " lines of version $version in changelog.md, without the "- "; a generic note when it has none.
 notes="$(awk -v v="$version" '
   /^## / { on = ($2 == v); next }
   on && /^- / { sub(/^- /, ""); print }' "$root/changelog.md")"
 if [[ -z "$notes" ]]; then
-  echo "::error::changelog.md has no entry for $version"
-  exit 1
+  notes="بهبودها و رفع اشکال‌ها."
+  echo "::warning::changelog.md has no entry for $version; sending the generic note: $notes"
 fi
 
 gh release download "$TAG" -p "IranianCards-$version-android-*.apk" -D "$work/apks"
