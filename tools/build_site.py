@@ -59,7 +59,7 @@ def icon(pid: str) -> str:
 
 # Store listings still to come, shown on the platform's download card.
 STORES_SOON = {
-    "android": "به‌زودی در کافه‌بازار و مایکت",
+    "android": 'در <a href="https://myket.ir/app/com.iraniancards.hokm" target="_blank" rel="noopener">مایکت</a> هم هست · به‌زودی در کافه‌بازار',
 }
 
 # Platforms published in a store: (button text, listing URL), the card's main button when there is no file.
@@ -120,7 +120,7 @@ def render_scan(f: dict) -> str:
     url, scan = f.get("virustotal"), f.get("scan")
     if not url:
         return ""
-    href = f'href="{html.escape(url)}" rel="noopener"'
+    href = f'href="{html.escape(url)}" target="_blank" rel="noopener"'
     if not scan:
         return f'<a class="vt pending" {href}>ویروس‌توتال: در حال بررسی</a>'
     if scan["flagged"] == 0:
@@ -162,7 +162,7 @@ def render_downloads(release: dict) -> str:
         if not present and pid in STORES:
             text, url = STORES[pid]
             cards.append(f'<article class="dl-card" data-platform="{pid}">{head}'
-                         f'<a class="btn primary" href="{html.escape(url)}" rel="noopener">{text}</a>'
+                         f'<a class="btn primary" href="{html.escape(url)}" target="_blank" rel="noopener">{text}</a>'
                          f'<p class="dl-note">آیفون و آیپد</p></article>')
             continue
         if not present:
