@@ -67,8 +67,10 @@ fi
 
 # A Myket call; prints the reply and fails on an HTTP error, after printing the error body.
 myket() {
-  curl -sS --fail-with-body --retry 3 --max-time 1800 -H "X-Access-Token: $MYKET_ACCESS_TOKEN" "$@"
+  local status=0
+  curl -sS --fail-with-body --retry 3 --max-time 1800 -H "X-Access-Token: $MYKET_ACCESS_TOKEN" "$@" || status=$?
   echo
+  return "$status"
 }
 
 echo "Setting Myket's release bundle to $version"
