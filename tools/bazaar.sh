@@ -92,7 +92,7 @@ fi
 
 for apk in "${apks[@]}"; do
   echo "Uploading $(basename "$apk")"
-  bazaar -X POST -F "apk=@$apk" -F "architecture=$(abi "$(basename "$apk")")" "$API/apps/releases/upload/" \
+  bazaar -X POST -F "apk=@$apk;type=application/vnd.android.package-archive" -F "architecture=$(abi "$(basename "$apk")")" "$API/apps/releases/upload/" \
     | jq -c '.package // .' || { echo "::error::Upload of $(basename "$apk") failed"; exit 1; }
 done
 
