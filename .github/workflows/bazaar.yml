@@ -18,6 +18,10 @@ on:
         description: Publish on its own once Bazaar's review passes
         type: boolean
         default: true
+      abis:
+        description: Only these ABIs, e.g. arm64 or arm64,armv7 (empty for all)
+        type: string
+        default: ''
       dry_run:
         description: Only check the secret and show what would be sent
         type: boolean
@@ -44,5 +48,6 @@ jobs:
           TAG: ${{ inputs.tag }}
           ROLLOUT: ${{ inputs.rollout }}
           AUTO_PUBLISH: ${{ inputs.auto_publish }}
+          ABIS: ${{ inputs.abis }}
           DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
         run: tools/bazaar.sh "$TAG"

@@ -8,7 +8,8 @@
 # - Reuses Bazaar's open draft release if there is one, otherwise creates one; uploads every APK to it; then commits
 #   it with the Persian notes of that version from changelog.md.
 # - AUTO_PUBLISH (default true): Bazaar publishes on its own once review passes. ROLLOUT (default 100): the staged
-#   rollout percentage. DRY_RUN=1 prints what it would send and only makes a read-only call to check the secret.
+#   rollout percentage. ABIS (default all), e.g. "arm64" or "arm64,armv7": only the APKs of these ABIs. An APK already in
+#   the open draft (same SHA-1) is not uploaded again. DRY_RUN=1 prints what it would send and only makes a read-only call to check the secret.
 # The API secret is per app: pishkhan.cafebazaar.ir -> the app -> API (Pishkhan API) -> the secret.
 set -euo pipefail
 shopt -s inherit_errexit 2>/dev/null || true
@@ -19,6 +20,7 @@ version="${TAG#v}"
 API=https://api.pishkhan.cafebazaar.ir/v1
 AUTO_PUBLISH="${AUTO_PUBLISH:-true}"
 ROLLOUT="${ROLLOUT:-100}"
+ABIS="${ABIS:-}"
 root="$(cd "$(dirname "$0")/.." && pwd)"
 
 if [[ -z "${BAZAAR_API_SECRET:-}" && -z "${DRY_RUN:-}" ]]; then
@@ -40,9 +42,13 @@ fi
 
 gh release download "$TAG" -p "IranianCards-$version-android-*.apk" -D "$work/apks"
 shopt -s nullglob
-apks=("$work"/apks/*.apk)
+apks=()
+for apk in "$work"/apks/*.apk; do
+  abi_name="${apk##*-android-}"; abi_name="${abi_name%.apk}"
+  [[ -z "$ABIS" || " ${ABIS//,/ } " == *" $abi_name "* ]] && apks+=("$apk")
+done
 if (( ${#apks[@]} == 0 )); then
-  echo "::error::Release $TAG has no Android APK"
+  echo "::error::Release $TAG has no Android APK${ABIS:+ for $ABIS}"
   exit 1
 fi
 
@@ -83,14 +89,22 @@ if [[ -n "${DRY_RUN:-}" ]]; then
   exit 0
 fi
 
-if expect=not-exists bazaar "$API/apps/releases/last-uncommitted/" >/dev/null; then
+uploaded=""
+if draft="$(expect=not-exists bazaar "$API/apps/releases/last-uncommitted/")"; then
   echo "Creating a release on Bazaar"
   bazaar -X POST -H 'Content-Type: application/json' -d '{}' "$API/apps/releases/"
 else
+  jq -e '.type == "success"' <<<"$draft" >/dev/null || { echo "$draft"; echo "::error::Reading Bazaar's draft failed"; exit 1; }
   echo "Reusing Bazaar's open draft release"
+  # The SHA-1s of the APKs already in the draft, from a run that stopped before its commit.
+  uploaded="$(jq -r '.. | .sha1_hash? // empty' <<<"$draft")"
 fi
 
 for apk in "${apks[@]}"; do
+  if grep -qxF "$(shasum -a 1 "$apk" | cut -d' ' -f1)" <<<"$uploaded"; then
+    echo "$(basename "$apk") is already in the draft"
+    continue
+  fi
   echo "Uploading $(basename "$apk")"
   bazaar -X POST -F "apk=@$apk;type=application/vnd.android.package-archive" -F "architecture=$(abi "$(basename "$apk")")" "$API/apps/releases/upload/" \
     | jq -c '.package // .' || { echo "::error::Upload of $(basename "$apk") failed"; exit 1; }
