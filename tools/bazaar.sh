@@ -52,15 +52,6 @@ if (( ${#apks[@]} == 0 )); then
   exit 1
 fi
 
-# Bazaar's name for the ABI of APK $1, e.g. IranianCards-0.11.0-android-arm64.apk -> arm64-v8a.
-abi() {
-  case "$1" in
-    *-android-arm64.apk) echo arm64-v8a ;;
-    *-android-armv7.apk) echo armeabi-v7a ;;
-    *)                   echo all ;;
-  esac
-}
-
 # A Pishkhan call; prints the JSON reply and fails unless its "type" is "success" (or $expect, when given).
 bazaar() {
   local expect="${expect:-success}" reply
@@ -76,7 +67,7 @@ commit_body="$(jq -n --arg fa "$notes" --arg note "Release $TAG, https://github.
 
 if [[ -n "${DRY_RUN:-}" ]]; then
   echo "Dry run for $TAG; would upload:"
-  for apk in "${apks[@]}"; do echo "  $(basename "$apk") as $(abi "$(basename "$apk")")"; done
+  for apk in "${apks[@]}"; do echo "  $(basename "$apk")"; done
   echo "and commit with:"; echo "$commit_body"
   if [[ -n "${BAZAAR_API_SECRET:-}" ]]; then
     echo "Checking the secret with a read-only call (is there an open draft release?):"
@@ -106,7 +97,7 @@ for apk in "${apks[@]}"; do
     continue
   fi
   echo "Uploading $(basename "$apk")"
-  bazaar -X POST -F "apk=@$apk;type=application/vnd.android.package-archive" -F "architecture=$(abi "$(basename "$apk")")" "$API/apps/releases/upload/" \
+  bazaar -X POST -F "apk=@$apk;type=application/vnd.android.package-archive" "$API/apps/releases/upload/" \
     | jq -c '.package // .' || { echo "::error::Upload of $(basename "$apk") failed"; exit 1; }
 done
 
