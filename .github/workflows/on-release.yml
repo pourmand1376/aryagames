@@ -1,6 +1,8 @@
 # After every release here: scan its builds on VirusTotal and wait for the verdicts (tools/virustotal.sh), point
 # releases.json at it (tools/update_releases_json.sh), and only then redeploy the site, every run, so the download
 # buttons follow. This is the only deploy a release makes; nothing deploys the site ahead of the scan.
+# A newly published release also goes to Myket and Cafe Bazaar (myket.yml, bazaar.yml) once its scan is done; a rescan
+# or a run by hand doesn't, as the stores would get the same version again. Send an older tag with those workflows.
 # - Runs when a release is published, and on a "rescan" repository_dispatch, which the app repo's tools/publish_public.sh
 #   sends after adding files to an existing release (e.g. the macOS zips). GitHub sends no release event for new files.
 # - Run it by hand for any release: Actions tab -> On release -> Run workflow, or from the app repo `just virustotal v0.11.0`.
@@ -82,3 +84,18 @@ jobs:
       - env:
           GH_TOKEN: ${{ github.token }}
         run: gh workflow run pages.yml --repo "$GITHUB_REPOSITORY" --ref main
+
+  # Only for a newly published release, not a rescan or a run by hand: those would send a version the stores already have.
+  stores:
+    needs: scan
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          gh workflow run myket.yml --repo "$GITHUB_REPOSITORY" --ref main -f tag="$TAG"
+          gh workflow run bazaar.yml --repo "$GITHUB_REPOSITORY" --ref main -f tag="$TAG"

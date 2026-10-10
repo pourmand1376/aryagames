@@ -1,5 +1,6 @@
-# Publish a release's Android APKs to Myket (tools/myket.sh). Run by hand for now:
-# Actions tab -> Myket -> Run workflow, or `gh workflow run myket.yml -f tag=v0.11.0`.
+# Publish a release's Android APKs to Myket (tools/myket.sh). on-release.yml starts it for every newly
+# published release; run it by hand for an older tag or other options: Actions tab -> Myket -> Run workflow, or
+# `gh workflow run myket.yml -f tag=v0.11.0`.
 # Needs the repo secret MYKET_ACCESS_TOKEN (Myket developer panel -> the app -> in-app products -> verification token).
 name: Myket
 

@@ -1,5 +1,6 @@
-# Publish a release's Android APKs to Cafe Bazaar (tools/bazaar.sh). Run by hand for now:
-# Actions tab -> Cafe Bazaar -> Run workflow, or `gh workflow run bazaar.yml -f tag=v0.11.0`.
+# Publish a release's Android APKs to Cafe Bazaar (tools/bazaar.sh). on-release.yml starts it for every newly
+# published release; run it by hand for an older tag or other options: Actions tab -> Cafe Bazaar -> Run workflow, or
+# `gh workflow run bazaar.yml -f tag=v0.11.0`.
 # Needs the repo secret BAZAAR_API_SECRET (Pishkhan -> the app -> API).
 name: Cafe Bazaar
 
