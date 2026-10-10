@@ -1,37 +1,13 @@
 // The hero fan plays out the start of a Hokm deal: you get five cards, call Hokm with one of four suit buttons, and
 // the other eight come from the 47 left (thirteen in all, like the Hakem's hand); «دوباره» deals again. The hand is sorted left to right the way the
 // game sorts it (suits alternate colors: ♣ ♦ ♠ ♥, each from 2 up to A), and any card can be dragged to a new place.
-// A number card carries as many pips as its number, laid out like a real card; A has one big pip and J, Q, K a framed
-// letter. The five cards in the HTML stay, without the buttons, if this doesn't run.
-// Pip spots on a 3-column grid (x: 0 left, 50 middle, 100 right; y: 0 top to 100 bottom); the bottom half is upside down.
-var PIPS = {
-  2: [[50, 0], [50, 100]],
-  3: [[50, 0], [50, 50], [50, 100]],
-  4: [[0, 0], [100, 0], [0, 100], [100, 100]],
-  5: [[0, 0], [100, 0], [50, 50], [0, 100], [100, 100]],
-  6: [[0, 0], [100, 0], [0, 50], [100, 50], [0, 100], [100, 100]],
-  7: [[0, 0], [100, 0], [50, 25], [0, 50], [100, 50], [0, 100], [100, 100]],
-  8: [[0, 0], [100, 0], [50, 25], [0, 50], [100, 50], [50, 75], [0, 100], [100, 100]],
-  9: [[0, 0], [100, 0], [0, 33.3], [100, 33.3], [50, 50], [0, 66.7], [100, 66.7], [0, 100], [100, 100]],
-  10: [[0, 0], [100, 0], [50, 16.7], [0, 33.3], [100, 33.3], [0, 66.7], [100, 66.7], [50, 83.3], [0, 100], [100, 100]]
-};
+// Each card is the game's own Standard deck face (assets/cards, e.g. QD.webp), on the same white paper and grey border.
+// The five cards in the HTML stay, without the buttons, if this doesn't run.
 var SUITS = ["♣", "♦", "♠", "♥"];
 var RANKS = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
-function cardFace(r, s) {
-  var pips = PIPS[r];
-  if (pips) {
-    return '<span class="pips">' + pips.map(function (p) {
-      return '<span style="left:' + p[0] + "%;top:" + p[1] + '%"' + (p[1] > 50 ? ' class="down"' : "") + ">" + s + "</span>";
-    }).join("") + "</span>";
-  }
-  if (r === "A") return '<span class="ace">' + s + "</span>";
-  return '<span class="court"><b>' + r + "</b><em>" + s + "</em></span>";
-}
+var SUIT_FILE = { "♣": "C", "♦": "D", "♠": "S", "♥": "H" };
 function cardHtml(r, s) {
-  var red = s === "♥" || s === "♦" ? " red" : "";
-  var idx = "<b" + (r === "10" ? ' class="ten"' : "") + ">" + r + "</b><em>" + s + "</em>";
-  return '<div class="card' + red + '"><span class="idx">' + idx + "</span>" + cardFace(r, s) +
-    '<span class="idx flip">' + idx + "</span></div>";
+  return '<div class="card"><img src="assets/cards/' + r + SUIT_FILE[s] + '.webp" alt="" draggable="false"></div>';
 }
 
 (function () {

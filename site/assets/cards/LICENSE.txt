@@ -1,0 +1,4 @@
+Card faces: Vector Playing Cards by Byron Knoll (http://www.byronknoll.com/), released into the public domain
+(https://code.google.com/archive/p/vector-playing-cards/), via https://github.com/notpeter/Vector-Playing-Cards
+(public domain or, where that is not recognized, the WTFPL). The game's Standard deck (its godot/cards/standard),
+converted to WebP at 400 px tall for the website.
