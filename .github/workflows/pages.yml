@@ -1,18 +1,12 @@
 # Builds the site (tools/build_site.py) and deploys it to GitHub Pages.
-# Runs on every push to main, and from on-release.yml once a release's scan and releases.json update are done: a new
-# release reaches the site only after its VirusTotal verdicts.
+# Runs on every push to main, and dispatched by on-release.yml once a release's scan and releases.json update are done:
+# a new release reaches the site only after its VirusTotal verdicts.
 name: Pages
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
-  workflow_call:
-    inputs:
-      ref:
-        description: Commit to build; on-release.yml passes the one it just pushed
-        type: string
-        required: false
 
 permissions:
   contents: read
@@ -31,10 +25,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v5
-        with:
-          # From on-release.yml, the exact commit it just pushed. With plain `main` the release run's deploy once
-          # built the commit before its own releases.json update, and the site stayed on the old version.
-          ref: ${{ inputs.ref || 'main' }}
       - run: python3 tools/build_site.py
       - uses: actions/upload-pages-artifact@v4
         with:

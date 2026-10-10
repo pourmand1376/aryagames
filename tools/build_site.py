@@ -59,7 +59,7 @@ def icon(pid: str) -> str:
 
 # Store listings still to come, shown on the platform's download card.
 STORES_SOON = {
-    "android": 'در <a href="https://myket.ir/app/com.iraniancards.hokm" target="_blank" rel="noopener">مایکت</a> هم هست · به‌زودی در کافه‌بازار',
+    "android": 'در <a href="https://cafebazaar.ir/app/com.iraniancards.hokm" target="_blank" rel="noopener">کافه‌بازار</a> و <a href="https://myket.ir/app/com.iraniancards.hokm" target="_blank" rel="noopener">مایکت</a> هم هست',
 }
 
 # Platforms published in a store: (button text, listing URL), the card's main button when there is no file.
