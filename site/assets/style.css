@@ -223,7 +223,7 @@ code { font-size: .9em; background: var(--bg-alt); padding: .1em .4em; border-ra
 .dl-head { display: flex; align-items: center; gap: 10px; width: 100%; margin-bottom: 14px; }
 .dl-head h3 { margin: 0; }
 .dl-head .pf-icon { color: var(--ink); }
-.dl-stores { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+.dl-stores { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; }
 .dl-stores .btn { text-align: center; padding-inline: .5em; white-space: nowrap; }
 .dl-note { color: var(--ink-soft); font-size: .88rem; margin: 10px 0 0; }
 .dl-alt { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line); width: 100%; }
