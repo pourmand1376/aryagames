@@ -60,12 +60,14 @@ def icon(pid: str) -> str:
 # Store listings still to come, shown on the platform's download card.
 STORES_SOON = {
     "android": 'در <a href="https://cafebazaar.ir/app/com.iraniancards.hokm" target="_blank" rel="noopener">کافه‌بازار</a> و <a href="https://myket.ir/app/com.iraniancards.hokm" target="_blank" rel="noopener">مایکت</a> هم هست',
-    "ios": 'در <a href="https://app.appleapps.ir/id/2554478/" target="_blank" rel="noopener">اپل اپس</a> هم هست',
 }
 
-# Platforms published in a store: (button text, listing URL), the card's main button when there is no file.
+# Platforms published in stores: (button text, listing URL) each, equal buttons on the card when there is no file.
 STORES = {
-    "ios": ("دریافت از سیب‌اپ", "https://sibapp.com/applications/hokm-ghafoon-and-shelemtrio"),
+    "ios": [
+        ("دریافت از سیب‌اپ", "https://sibapp.com/applications/hokm-ghafoon-and-shelemtrio"),
+        ("دریافت از اپل اپس", "https://app.appleapps.ir/id/2554478/"),
+    ],
 }
 
 
@@ -161,10 +163,11 @@ def render_downloads(release: dict) -> str:
         present = [(key, label, note) for key, label, note in options if key in files]
         head = f'<div class="dl-head">{icon(pid)}<h3>{title}</h3></div>'
         if not present and pid in STORES:
-            text, url = STORES[pid]
+            buttons = "".join(f'<a class="btn primary" href="{html.escape(url)}" target="_blank" rel="noopener">{text}</a>'
+                              for text, url in STORES[pid])
             cards.append(f'<article class="dl-card" data-platform="{pid}">{head}'
-                         f'<a class="btn primary" href="{html.escape(url)}" target="_blank" rel="noopener">{text}</a>'
-                         f'<p class="dl-note">آیفون و آیپد</p></article>')
+                         f'<div class="dl-stores">{buttons}</div>'
+                         f'<p class="dl-note">آیفون و آیپد · هر دو یک نسخه‌اند</p></article>')
             continue
         if not present:
             soon = STORES_SOON.get(pid, "به‌زودی")
