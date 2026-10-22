@@ -65,8 +65,8 @@ STORES_SOON = {
 # Platforms published in stores: (button text, listing URL) each, equal buttons on the card when there is no file.
 STORES = {
     "ios": [
-        ("دریافت از سیب‌اپ", "https://sibapp.com/applications/hokm-ghafoon-and-shelemtrio"),
-        ("دریافت از اپل اپس", "https://app.appleapps.ir/id/2554478/"),
+        ("سیب‌اپ", "https://sibapp.com/applications/hokm-ghafoon-and-shelemtrio"),
+        ("اپل اپس", "https://app.appleapps.ir/id/2554478/"),
     ],
 }
 
@@ -167,7 +167,7 @@ def render_downloads(release: dict) -> str:
                               for text, url in STORES[pid])
             cards.append(f'<article class="dl-card" data-platform="{pid}">{head}'
                          f'<div class="dl-stores">{buttons}</div>'
-                         f'<p class="dl-note">آیفون و آیپد · هر دو یک نسخه‌اند</p></article>')
+                         f'<p class="dl-note">آیفون و آیپد</p></article>')
             continue
         if not present:
             soon = STORES_SOON.get(pid, "به‌زودی")
