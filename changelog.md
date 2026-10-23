@@ -1,5 +1,11 @@
 <!--
-Public release notes, newest first. Each version is "## X.Y.Z | YYYY-MM-DD" followed by "- " lines.
+Public release notes, newest first. Each version is "## 0.25.0 | 2026-10-23
+- طرح‌های تازهٔ کارت و پشت‌کارت به فروشگاه اضافه شدند؛ با انتخاب یک کارت از پاداش روزانه هم سکه بگیرید.
+- کارت‌های بازی‌شده در وسط میز قرار می‌گیرند و دست‌های جمع‌شده در حالت عمودی به یارتان نزدیک‌ترند؛ انتخاب کارت روی گوشی هم راحت‌تر شده است.
+- امتیاز کارت‌های پنج، ده و آس در شلم روی خود کارت دیده می‌شود.
+- مشکل واردکردن نام در صفحهٔ خوش‌آمد برطرف شد؛ پاداش روزانه از باز کردن بعدی برنامه نمایش داده می‌شود. صدای نتیجهٔ بازی و قطع صدا از تنظیمات هم اصلاح شدند.
+
+## X.Y.Z | YYYY-MM-DD" followed by "- " lines.
 tools/build_site.py turns this into changelog.html (anchor #vX.Y.Z) and shows the newest entry on the home page.
 Write for players: what changed at the table, not how it was built.
 -->
